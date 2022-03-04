@@ -36,5 +36,27 @@ function playRound(playerSelection, cpuSelection) {
     return -1;
 }
 
+function displayResult(result) {
+    switch (result) {
+        case 1:
+            alert("Player Wins!")
+            break;
+        case -1:
+            alert("CPU Wins!")
+            break;
+        case 0:
+            alert("DRAW! Try again.")
+            break;
+    }
+}
+
+const playerSelection = prompt("Rock, Paper or Scissors?").toLowerCase();
+console.log(`Player: ${playerSelection}`)
+const cpuSelection = cpuPlay()
+console.log(`CPU: ${cpuSelection}`)
+const roundResult = playRound(playerSelection, cpuSelection);
+displayResult(roundResult);
+
+
 
 
