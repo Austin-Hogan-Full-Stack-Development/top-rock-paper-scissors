@@ -36,7 +36,7 @@ function playRound(playerSelection, cpuSelection) {
     return -1;
 }
 
-function displayResult(result) {
+function displayRoundResult(result) {
     switch (result) {
         case 1:
             alert("Player Wins!")
@@ -50,13 +50,34 @@ function displayResult(result) {
     }
 }
 
-const playerSelection = prompt("Rock, Paper or Scissors?").toLowerCase();
-console.log(`Player: ${playerSelection}`)
-const cpuSelection = cpuPlay()
-console.log(`CPU: ${cpuSelection}`)
-const roundResult = playRound(playerSelection, cpuSelection);
-displayResult(roundResult);
+function displayGameResult(playerScore, cpuScore) {
+    if (playerScore > cpuScore) {
+        alert(`Player Wins\nPlayer: ${playerScore} CPU: ${cpuScore}`)
+    } else if (playerScore < cpuScore) {
+        alert(`CPU Wins\nPlayer: ${playerScore} CPU: ${cpuScore}`)
+    } else {
+        alert(`DRAW\nPlayer: ${playerScore} CPU: ${cpuScore}`)
+    }
+}
 
+function game() {
+    let playerScore = 0;
+    let cpuScore = 0
+    for (let round = 1; round <= 5; round++){
+        const playerSelection = prompt("Rock, Paper or Scissors?").toLowerCase();
+        console.log(`Player: ${playerSelection}`);
+        const cpuSelection = cpuPlay();
+        console.log(`CPU: ${cpuSelection}`);
+        const roundResult = playRound(playerSelection, cpuSelection);
+        if (roundResult === 1)
+            playerScore++;
+        else if (roundResult === -1)
+            cpuScore++;
+        displayRoundResult(roundResult);
+    }
+    displayGameResult(playerScore, cpuScore);
+}
 
+game();
 
 
