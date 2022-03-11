@@ -50,32 +50,54 @@ function displayRoundResult(result) {
     }
 }
 
-function displayGameResult(playerScore, cpuScore) {
-    if (playerScore > cpuScore) {
-        alert(`Player Wins\nPlayer: ${playerScore} CPU: ${cpuScore}`)
-    } else if (playerScore < cpuScore) {
-        alert(`CPU Wins\nPlayer: ${playerScore} CPU: ${cpuScore}`)
-    } else {
-        alert(`DRAW\nPlayer: ${playerScore} CPU: ${cpuScore}`)
-    }
+function checkGameResult(playerScore, cpuScore) {
+    if (playerScore === 5)
+        return 1;
+    else if (cpuScore === 5)
+        return -1;
+    else
+        return 0;
 }
 
 function game() {
     let playerScore = 0;
     let cpuScore = 0
-    for (let round = 1; round <= 5; round++){
-        const playerSelection = prompt("Rock, Paper or Scissors?").toLowerCase();
-        console.log(`Player: ${playerSelection}`);
-        const cpuSelection = cpuPlay();
-        console.log(`CPU: ${cpuSelection}`);
-        const roundResult = playRound(playerSelection, cpuSelection);
-        if (roundResult === 1)
-            playerScore++;
-        else if (roundResult === -1)
-            cpuScore++;
-        displayRoundResult(roundResult);
-    }
-    displayGameResult(playerScore, cpuScore);
+    const display = document.querySelector('#display');
+
+    let playerSelection = "";
+    const game_btns = document.querySelectorAll('button');
+    game_btns.forEach((button) => {
+        button.addEventListener('click', () => {
+            const playerSelection = document.querySelector('#playerSelection')
+            playerSelection.textContent = `Player: ${button.id}`;
+
+            const cpuChoice = cpuPlay();
+            const cpuSelection = document.querySelector('#cpuSelection')
+            cpuSelection.textContent = `CPU: ${cpuChoice}`;
+            
+            const roundResult = playRound(button.id, cpuChoice);
+            const header = document.querySelector('#headerText')
+            if (roundResult === 1) {
+                header.textContent = "Player wins the round!"
+                playerScore++;
+            } else if (roundResult === -1) {
+                header.textContent = "CPU wins the round!"
+                cpuScore++;
+            }
+            // displayRoundResult(roundResult);
+
+            const playerScoreLabel = document.querySelector('#playerScore')
+            playerScoreLabel.textContent = `Player: ${playerScore}`;
+            const cpuScoreLabel = document.querySelector('#cpuScore')
+            cpuScoreLabel.textContent = `Player: ${cpuScore}`;
+            
+            let seriesResult = checkGameResult(playerScore, cpuScore);
+            if (seriesResult === 1)
+                alert('Player Wins');
+            else if(seriesResult === -1)
+                alert('CPU Wins');
+        });
+    });
 }
 
 game();
